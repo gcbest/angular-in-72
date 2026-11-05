@@ -92,7 +92,15 @@ export class App {
   }
 
   reset(): void {
-    if (confirm('Reset all lesson progress and quiz answers?')) {
+    const syncNote = this.sync.configured()
+      ? ' This will also overwrite the synced gist on the next sync.'
+      : '';
+    if (
+      confirm(
+        'Reset all lesson progress, quiz answers, flashcard progress, and best score?' +
+          syncNote,
+      )
+    ) {
       this.progress.reset();
     }
   }
