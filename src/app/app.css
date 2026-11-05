@@ -414,7 +414,7 @@
   margin-left: auto;
 }
 
-.theme-btn {
+.icon-btn {
   display: grid;
   place-items: center;
   width: 33px;
@@ -429,14 +429,42 @@
     color 140ms ease;
 }
 
-.theme-btn:hover {
+.icon-btn:hover {
   border-color: var(--text-faint);
   color: var(--text);
 }
 
-.theme-btn svg {
+.icon-btn svg {
   width: 16px;
   height: 16px;
+}
+
+.sync-top {
+  position: relative;
+}
+
+.top-sync-dot {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.top-sync-dot.on {
+  background: var(--green);
+}
+
+.top-sync-dot.busy {
+  background: var(--amber);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+.top-sync-dot.error {
+  background: var(--accent);
 }
 
 .page {

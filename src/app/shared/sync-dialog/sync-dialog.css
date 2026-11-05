@@ -173,6 +173,46 @@
   accent-color: var(--accent);
 }
 
+.gist-id {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.75rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg-soft);
+}
+
+.gist-id code {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy-id {
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--text-faint);
+  padding: 0.18rem 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.copy-id:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

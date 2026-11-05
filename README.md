@@ -2,6 +2,11 @@
 
 A three-day Angular curriculum for React developers preparing for a Karat interview. The site itself is built with Angular 22, so you can read the source as a working reference while you study.
 
+**Live site:** https://gcbest.github.io/angular-in-72/  
+**Repo:** https://github.com/gcbest/angular-in-72
+
+The live site is deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
+
 ## Run it
 
 ```bash

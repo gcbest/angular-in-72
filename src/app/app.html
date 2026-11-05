@@ -119,7 +119,39 @@
 
         <button
           type="button"
-          class="theme-btn"
+          class="icon-btn sync-top"
+          (click)="openSync()"
+          [attr.aria-label]="sync.configured() ? 'Progress sync settings' : 'Set up progress sync'"
+          title="Sync progress"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 18h10a4 4 0 0 0 .6-7.96A5.5 5.5 0 0 0 6.7 8.6 4.7 4.7 0 0 0 7 18Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 11v5m0 0-2-2m2 2 2-2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span
+            class="top-sync-dot"
+            [class.on]="sync.configured()"
+            [class.busy]="sync.status() === 'syncing'"
+            [class.error]="sync.status() === 'error'"
+            aria-hidden="true"
+          ></span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn theme-btn"
           (click)="toggleTheme()"
           [attr.aria-label]="theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
         >

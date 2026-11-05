@@ -72,6 +72,14 @@
               Auto-sync after changes
             </label>
 
+            <div class="gist-id">
+              <span class="label-text">Gist id</span>
+              <code>{{ sync.config().gistId }}</code>
+              <button type="button" class="copy-id" (click)="copyGistId()">
+                {{ copied() ? 'Copied' : 'Copy' }}
+              </button>
+            </div>
+
             <div class="actions">
               <button
                 type="button"

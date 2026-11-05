@@ -25,6 +25,9 @@ export class SyncDialog implements OnDestroy {
 
   readonly token = signal('');
   readonly gistId = signal('');
+  readonly copied = signal(false);
+
+  private copyTimer?: ReturnType<typeof setTimeout>;
 
   readonly configured = this.sync.configured;
   readonly autoSync = computed(() => this.sync.config().autoSync);
@@ -73,6 +76,22 @@ export class SyncDialog implements OnDestroy {
     this.sync.setAutoSync(checked);
   }
 
+  copyGistId(): void {
+    const id = this.sync.config().gistId;
+    if (!id || !navigator.clipboard) return;
+
+    navigator.clipboard
+      .writeText(id)
+      .then(() => {
+        this.copied.set(true);
+        clearTimeout(this.copyTimer);
+        this.copyTimer = setTimeout(() => this.copied.set(false), 1500);
+      })
+      .catch(() => {
+        this.copied.set(false);
+      });
+  }
+
   disconnect(): void {
     this.sync.disconnect();
     this.gistId.set('');
@@ -84,6 +103,7 @@ export class SyncDialog implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearTimeout(this.copyTimer);
     document.body.style.overflow = '';
   }
 }
