@@ -1,0 +1,152 @@
+<div class="shell">
+  <aside class="rail" [class.open]="menuOpen()">
+    <a class="brand" routerLink="/" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true">ng</span>
+      <span class="brand-type">
+        <span class="brand-name">/72</span>
+        <span class="brand-sub">Interview field guide</span>
+      </span>
+    </a>
+
+    <div class="rail-progress">
+      <div class="rail-progress-head">
+        <span class="eyebrow">Curriculum</span>
+        <span class="pct">{{ overallPct() }}%</span>
+      </div>
+      <div class="bar" role="progressbar" [attr.aria-valuenow]="overallPct()" aria-valuemin="0" aria-valuemax="100">
+        <span [style.width.%]="overallPct()"></span>
+      </div>
+      <p>{{ completedCount() }} of {{ totalLessons }} lessons complete</p>
+    </div>
+
+    <nav class="rail-nav" aria-label="Study navigation">
+      <span class="nav-label">Study</span>
+
+      <a
+        class="nav-item"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        <span class="nav-dot" aria-hidden="true"></span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+
+      @for (day of days; track day.id) {
+        @let s = stats(day);
+        <a
+          class="nav-item day-link"
+          [routerLink]="['/day', day.id]"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+        >
+          <span class="nav-num">0{{ day.id }}</span>
+          <span class="nav-day">
+            <span class="nav-day-title">{{ day.title }}</span>
+            <span class="nav-day-meta">{{ s.done }} / {{ s.total }} lessons</span>
+          </span>
+          <span class="nav-pct">{{ s.pct }}%</span>
+        </a>
+      }
+
+      <span class="nav-label nav-label-spaced">Reference</span>
+
+      <a class="nav-item" routerLink="/cheatsheet" routerLinkActive="active" (click)="closeMenu()">
+        <span class="nav-dot" aria-hidden="true"></span>
+        <span class="nav-text">React → Angular cheat sheet</span>
+      </a>
+
+      <a class="nav-item" routerLink="/drills" routerLinkActive="active" (click)="closeMenu()">
+        <span class="nav-dot" aria-hidden="true"></span>
+        <span class="nav-text">Flashcards & drills</span>
+      </a>
+    </nav>
+
+    <div class="rail-foot">
+      <button type="button" class="sync-btn" (click)="openSync()">
+        <span
+          class="sync-dot"
+          [class.on]="sync.configured()"
+          [class.busy]="sync.status() === 'syncing'"
+          [class.error]="sync.status() === 'error'"
+          aria-hidden="true"
+        ></span>
+        <span>
+          @if (sync.configured()) {
+            {{ sync.config().autoSync ? 'Progress sync on' : 'Progress sync paused' }}
+          } @else {
+            Sync progress
+          }
+        </span>
+      </button>
+      <button type="button" class="theme-toggle" (click)="toggleTheme()">
+        <span class="switch" aria-hidden="true"><span class="knob"></span></span>
+        <span>{{ theme() === 'dark' ? 'Dark' : 'Light' }} mode</span>
+      </button>
+      <button type="button" class="reset" (click)="reset()">Reset progress</button>
+      <p class="rail-note">
+        Built for Angular 22<br />
+        Signals · Zoneless · OnPush
+      </p>
+    </div>
+  </aside>
+
+  @if (menuOpen()) {
+    <button type="button" class="scrim" aria-label="Close navigation" (click)="closeMenu()"></button>
+  }
+
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="menu-btn" aria-label="Open navigation" (click)="toggleMenu()">
+        <span></span><span></span>
+      </button>
+
+      <div class="topbar-context">
+        <span class="topbar-mark" aria-hidden="true">NG</span>
+        <span class="topbar-section">{{ section() }}</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button type="button" class="search-trigger" (click)="openSearch()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7" />
+            <path d="m16.5 16.5 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          <span class="search-text">Search</span>
+          <kbd>⌘K</kbd>
+        </button>
+
+        <button
+          type="button"
+          class="theme-btn"
+          (click)="toggleTheme()"
+          [attr.aria-label]="theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        >
+          @if (theme() === 'dark') {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          }
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <router-outlet />
+    </main>
+
+    <footer class="site-footer">
+      <span>Angular in 72 hours — a field guide for React developers.</span>
+      <span class="footer-note">22 lessons · Angular 22 · built to be read twice</span>
+    </footer>
+  </div>
+</div>
+
+<app-search-overlay [open]="searchOpen()" (closed)="searchOpen.set(false)" />
+<app-sync-dialog [open]="syncOpen()" (closed)="syncOpen.set(false)" />

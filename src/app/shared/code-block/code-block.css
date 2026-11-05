@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  margin: 1.35rem 0 1.6rem;
+}
+
+.code {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--code-bg);
+  overflow: hidden;
+  box-shadow: 0 16px 40px -30px rgba(0, 0, 0, 0.7);
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.65rem 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--code-line);
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.code-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8c98;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.85;
+  flex: none;
+}
+
+.copy {
+  flex: none;
+  border: 1px solid #2a2a31;
+  background: #161619;
+  color: #9b9ba6;
+  border-radius: 4px;
+  padding: 0.28rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.copy:hover {
+  color: #fff;
+  border-color: #3a3a44;
+}
+
+.copy.copied {
+  color: #a8e6a3;
+  border-color: #2d4a35;
+  background: #121b15;
+}
+
+pre {
+  margin: 0;
+  padding: 1.05rem 1.15rem 1.15rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+code {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.72;
+  color: var(--code-text);
+  tab-size: 2;
+  white-space: pre;
+}
+
+.compact {
+  box-shadow: none;
+}
+
+.compact .code-head {
+  padding: 0.35rem 0.55rem 0.35rem 0.7rem;
+}
+
+.compact pre {
+  padding: 0.7rem 0.75rem 0.8rem;
+}
+
+.compact code {
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  pre {
+    padding: 0.9rem 0.85rem 1rem;
+  }
+
+  code {
+    font-size: 0.74rem;
+  }
+
+  .compact code {
+    font-size: 0.63rem;
+  }
+}

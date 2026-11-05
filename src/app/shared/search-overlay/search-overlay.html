@@ -1,0 +1,69 @@
+@if (open()) {
+  <div class="backdrop" (click)="close()">
+    <div
+      class="dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search the field guide"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="search-line">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7" />
+          <path d="m16.5 16.5 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+        <input
+          #searchInput
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Search lessons, APIs, questions…"
+          [value]="query()"
+          (input)="onInput($any($event.target).value)"
+          (keydown)="onKey($event)"
+          aria-label="Search"
+        />
+        <kbd>ESC</kbd>
+      </div>
+
+      <div class="results">
+        <div class="results-head">
+          <span class="eyebrow">{{ query() ? 'Results' : 'Jump to' }}</span>
+          @if (query()) {
+            <span class="count">{{ results().length }} match{{ results().length === 1 ? '' : 'es' }}</span>
+          }
+        </div>
+
+        @if (results().length === 0) {
+          <p class="empty">
+            No matches for <strong>“{{ query() }}”</strong>. Try “signal”, “guard”, or “switchMap”.
+          </p>
+        }
+
+        @for (entry of results(); track entry.id; let i = $index) {
+          <button
+            type="button"
+            class="result"
+            [class.active]="i === activeIndex()"
+            (click)="go(entry)"
+            (mouseenter)="activeIndex.set(i)"
+          >
+            <span class="result-index">{{ pad(i + 1) }}</span>
+            <span class="result-main">
+              <span class="result-title" [innerHTML]="entry.title | highlight:query()"></span>
+              <span class="result-context">{{ entry.context }}</span>
+            </span>
+            <span class="result-enter" aria-hidden="true">↵</span>
+          </button>
+        }
+      </div>
+
+      <div class="hints">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <span><kbd>esc</kbd> close</span>
+        <span class="hint-brand">NG / 72</span>
+      </div>
+    </div>
+  </div>
+}

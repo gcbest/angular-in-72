@@ -1,0 +1,219 @@
+<div class="home">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="hero-kicker">
+        <span class="pulse" aria-hidden="true"></span>
+        A three-day field guide · Angular 22
+      </div>
+
+      <h1 class="display">Angular,<br /><em>in 72 hours.</em></h1>
+
+      <p class="lede">
+        You already know React. This is the shortest path from components and hooks to
+        signals, dependency injection, RxJS, and a Karat interview you can walk into calm.
+      </p>
+
+      <div class="hero-actions">
+        <a
+          class="btn btn-primary"
+          [routerLink]="startTarget().commands"
+          [fragment]="startTarget().fragment"
+        >
+          {{ startLabel() }} <span class="arrow">→</span>
+        </a>
+        <a class="btn" routerLink="/cheatsheet">React → Angular map</a>
+      </div>
+
+      <div class="hero-meta">
+        <span><strong>{{ totalLessons }}</strong> lessons</span>
+        <span><strong>~{{ totalHours }}h</strong> of study</span>
+        <span><strong>100+</strong> recall prompts</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="card-tabs">
+        <button
+          type="button"
+          [class.active]="mode() === 'react'"
+          (click)="mode.set('react')"
+        >
+          React
+        </button>
+        <button
+          type="button"
+          [class.active]="mode() === 'angular'"
+          (click)="mode.set('angular')"
+        >
+          Angular
+        </button>
+        <span class="tab-note">same component</span>
+      </div>
+
+      <app-code
+        [code]="heroCode()"
+        [lang]="mode() === 'react' ? 'tsx' : 'ts'"
+        [title]="mode() === 'react' ? 'Counter.tsx' : 'counter.ts'"
+        [compact]="true"
+      />
+
+      <p class="card-caption">
+        @if (mode() === 'react') {
+          State change → re-render → virtual DOM diff.
+        } @else {
+          Signal change → precise notification → targeted refresh.
+        }
+      </p>
+    </div>
+  </section>
+
+  <section class="section plan" id="plan">
+    <header class="section-head">
+      <span class="eyebrow">The plan</span>
+      <h2 class="display">Three days. <em>One interview.</em></h2>
+      <p>
+        Each day is one focused block: read the concept, read the code, answer the checks,
+        then build. You do not need every lesson to pass — but do not skip the drills.
+      </p>
+    </header>
+
+    <div class="day-grid">
+      @for (day of days; track day.id; let i = $index) {
+        @let s = stats(day);
+        <a class="day-card" [routerLink]="['/day', day.id]">
+          <div class="day-top">
+            <span class="day-label">{{ day.label }}</span>
+            <span class="day-time">{{ day.duration }}</span>
+          </div>
+
+          <div class="day-title-row">
+            <span class="day-index" aria-hidden="true">0{{ i + 1 }}</span>
+            <h3>{{ day.title }}</h3>
+          </div>
+
+          <p class="day-sub">{{ day.subtitle }}</p>
+
+          <ul class="day-lessons">
+            @for (lesson of day.lessons.slice(0, 4); track lesson.id) {
+              <li>{{ lesson.title }}</li>
+            }
+            @if (day.lessons.length > 4) {
+              <li class="more">+ {{ day.lessons.length - 4 }} more</li>
+            }
+          </ul>
+
+          <div class="day-progress">
+            <span [style.width.%]="s.pct"></span>
+          </div>
+
+          <div class="day-foot">
+            <span>{{ s.done }} / {{ s.total }} lessons</span>
+            <span class="day-arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+
+  <section class="section high-yield">
+    <header class="section-head">
+      <span class="eyebrow">If you only have six hours</span>
+      <h2 class="display">The 20% that <em>gets asked.</em></h2>
+      <p>
+        Karat interviews reward fundamentals and clear reasoning. These six areas cover
+        almost every Angular question you will hear.
+      </p>
+    </header>
+
+    <div class="yield-grid">
+      @for (item of highYield; track item.num) {
+        <a class="yield-card" [routerLink]="item.link">
+          <span class="yield-num">{{ item.num }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+          <span class="yield-cta">{{ item.cta }} <span aria-hidden="true">→</span></span>
+        </a>
+      }
+    </div>
+  </section>
+
+  <section class="method">
+    <div class="method-intro">
+      <span class="eyebrow">How to use this</span>
+      <h2 class="display">Read. <em>Recall.</em> Build.</h2>
+    </div>
+    <div class="method-steps">
+      <div class="method-step">
+        <span class="method-num">01</span>
+        <h3>Read for the shape</h3>
+        <p>
+          Do not memorise syntax. Notice the pattern: state in a signal, data in a service,
+          view in a template. Twenty minutes per lesson is enough.
+        </p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">02</span>
+        <h3>Close the tab and say it</h3>
+        <p>
+          Answer the quiz, then explain the idea out loud without looking. If you cannot,
+          reread only that section. Recall beats rereading.
+        </p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">03</span>
+        <h3>Rebuild the search page</h3>
+        <p>
+          On day three, build the product search feature from a blank file. That single
+          exercise covers signals, HTTP, RxJS, routing, forms, and state.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compare-preview">
+    <div class="compare-copy">
+      <span class="eyebrow">Translation layer</span>
+      <h2 class="display">Your React brain <em>still works.</em></h2>
+      <p>
+        Almost every React concept has an Angular counterpart. Learn the mapping once and
+        you can spend your energy on the differences that actually matter.
+      </p>
+      <a class="btn" routerLink="/cheatsheet">
+        Open the full cheat sheet <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="preview">
+      <div class="preview-head">
+        <span>Concept</span>
+        <span>React</span>
+        <span>Angular</span>
+      </div>
+      @for (row of preview; track row.topic) {
+        <div class="preview-row">
+          <span class="preview-topic">{{ row.topic }}</span>
+          <code>{{ row.react }}</code>
+          <code class="ng">{{ row.angular }}</code>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="cta">
+    <span class="eyebrow">Start here</span>
+    <h2 class="display">
+      The interview is in three days.<br />
+      <em>Today is day one.</em>
+    </h2>
+    <div class="hero-actions cta-actions">
+      <a
+        class="btn btn-primary"
+        [routerLink]="startTarget().commands"
+        [fragment]="startTarget().fragment"
+      >
+        Begin the curriculum <span class="arrow">→</span>
+      </a>
+      <a class="btn" routerLink="/drills">Warm up with drills</a>
+    </div>
+  </section>
+</div>

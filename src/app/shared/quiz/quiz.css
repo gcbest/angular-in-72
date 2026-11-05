@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  margin: 1.8rem 0;
+}
+
+.quiz {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(120deg, var(--accent-soft), transparent 55%),
+    var(--surface);
+  padding: 1.15rem 1.25rem 1.2rem;
+}
+
+.quiz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.quiz-status {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.quiz-status.ok {
+  color: var(--green);
+}
+
+.quiz-status.bad {
+  color: var(--accent-strong);
+}
+
+.question {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.95rem;
+  color: var(--text);
+}
+
+.options {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: 1.55rem 1fr auto;
+  align-items: start;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.option:not(:disabled):hover {
+  border-color: var(--text-faint);
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+.letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--text-faint);
+  background: var(--surface-2);
+}
+
+.option.selected .letter {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.option.correct {
+  border-color: rgba(126, 226, 168, 0.45);
+  background: rgba(126, 226, 168, 0.07);
+  color: var(--text);
+}
+
+.option.correct .letter {
+  border-color: rgba(126, 226, 168, 0.5);
+  color: var(--green);
+}
+
+.option.wrong {
+  border-color: rgba(255, 59, 92, 0.45);
+  background: rgba(255, 59, 92, 0.07);
+  color: var(--text);
+}
+
+.option.wrong .letter {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mark {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+
+.option.correct .mark {
+  color: var(--green);
+}
+
+.option.wrong .mark {
+  color: var(--accent);
+}
+
+.explain {
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--line);
+}
+
+.explain-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.3rem;
+}
+
+.explain.bad .explain-label {
+  color: var(--accent-strong);
+}
+
+.explain p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.explain p code {
+  font-family: var(--mono);
+  font-size: 0.8em;
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: 0.05em 0.3em;
+}

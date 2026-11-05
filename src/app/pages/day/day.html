@@ -1,0 +1,121 @@
+@if (studyDay(); as day) {
+  <div class="day-page">
+    <header class="day-hero">
+      <div class="day-top">
+        <a class="back" routerLink="/">← Three-day plan</a>
+        <span class="eyebrow">{{ day.label }} / 03</span>
+      </div>
+
+      <h1 class="display">{{ day.title }}</h1>
+      <p class="subtitle">{{ day.subtitle }}</p>
+
+      <div class="day-meta">
+        <span><strong>{{ day.duration }}</strong></span>
+        <span><strong>{{ day.lessons.length }}</strong> lessons</span>
+        <span><strong>{{ stats().done }} / {{ stats().total }}</strong> complete</span>
+      </div>
+
+      <div class="progress" role="progressbar" [attr.aria-valuenow]="stats().pct" aria-valuemin="0" aria-valuemax="100">
+        <span [style.width.%]="stats().pct"></span>
+      </div>
+
+      <p class="goal">
+        <span class="eyebrow">Goal</span>
+        {{ day.goal }}
+      </p>
+    </header>
+
+    <div class="mobile-toc">
+      <span class="eyebrow">Jump to</span>
+      <div class="mobile-chips">
+        @for (lesson of day.lessons; track lesson.id; let i = $index) {
+          <a
+            [routerLink]="['/day', day.id]"
+            [fragment]="lesson.id"
+            [class.done]="isComplete(lesson.id)"
+          >
+            {{ pad(i + 1) }} · {{ lesson.title }}
+          </a>
+        }
+      </div>
+    </div>
+
+    <div class="day-layout">
+      <div class="lesson-column">
+        @for (lesson of day.lessons; track lesson.id; let i = $index) {
+          <section [id]="lesson.id">
+            <app-lesson-view [lesson]="lesson" [dayId]="day.id" [index]="i" />
+          </section>
+        }
+
+        <nav class="day-nav" aria-label="Day navigation">
+          @if (previousDay(); as previous) {
+            <a class="day-nav-card" [routerLink]="['/day', previous.id]">
+              <span class="eyebrow">Previous</span>
+              <strong>← {{ previous.label }} · {{ previous.title }}</strong>
+            </a>
+          } @else {
+            <a class="day-nav-card" routerLink="/">
+              <span class="eyebrow">Back</span>
+              <strong>← The three-day plan</strong>
+            </a>
+          }
+
+          @if (nextDay(); as next) {
+            <a class="day-nav-card next" [routerLink]="['/day', next.id]">
+              <span class="eyebrow">Next</span>
+              <strong>{{ next.label }} · {{ next.title }} →</strong>
+            </a>
+          } @else {
+            <a class="day-nav-card next" routerLink="/drills">
+              <span class="eyebrow">Final step</span>
+              <strong>Interview drills →</strong>
+            </a>
+          }
+        </nav>
+      </div>
+
+      <aside class="toc" aria-label="Lessons on this day">
+        <div class="toc-inner">
+          <div class="toc-head">
+            <span class="eyebrow">On this day</span>
+            <span class="toc-pct">{{ stats().pct }}%</span>
+          </div>
+
+          <div class="toc-bar">
+            <span [style.width.%]="stats().pct"></span>
+          </div>
+
+          <ol>
+            @for (lesson of day.lessons; track lesson.id; let i = $index) {
+              <li>
+                <a
+                  [routerLink]="['/day', day.id]"
+                  [fragment]="lesson.id"
+                  [class.done]="isComplete(lesson.id)"
+                >
+                  <span class="toc-num">{{ pad(i + 1) }}</span>
+                  <span class="toc-title">{{ lesson.title }}</span>
+                  <span class="toc-check" aria-hidden="true">
+                    {{ isComplete(lesson.id) ? '✓' : '' }}
+                  </span>
+                </a>
+              </li>
+            }
+          </ol>
+
+          <a class="toc-drill" routerLink="/drills">
+            Practice in drills <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+} @else {
+  <div class="not-found">
+    <span class="eyebrow">Not found</span>
+    <h1 class="display">That day does not exist.</h1>
+    <p>The plan has three days. Pick one.</p>
+    <a class="btn btn-primary" routerLink="/">Back to the plan</a>
+  </div>
+}

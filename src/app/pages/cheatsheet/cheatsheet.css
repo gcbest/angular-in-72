@@ -1,0 +1,355 @@
+.cheatsheet {
+  padding-bottom: 3rem;
+}
+
+.cs-hero {
+  padding: clamp(2.4rem, 5vw, 4rem) 0 1.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cs-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.back {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.back:hover {
+  color: var(--accent);
+}
+
+h1 {
+  font-size: clamp(2.9rem, 6vw, 5rem);
+  margin: 0 0 0.8rem;
+}
+
+.lede {
+  max-width: 62ch;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 1.6rem;
+}
+
+.cs-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 680px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.cs-search svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--text-faint);
+}
+
+.cs-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.cs-search input::placeholder {
+  color: var(--text-faint);
+}
+
+.clear {
+  border: 0;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  border-radius: 3px;
+  padding: 0.2rem 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.clear:hover {
+  color: var(--text);
+}
+
+.row-count {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.cs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 1.2rem;
+}
+
+.cs-nav a {
+  padding: 0.26rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.03em;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease;
+}
+
+.cs-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.cs-body {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.cs-section {
+  padding: 2.8rem 0 2.2rem;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 80px;
+}
+
+.cs-section-head {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.8rem;
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+
+.cs-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.22rem 0.28rem;
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+.cs-section-head h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin: 0 0 0.25rem;
+}
+
+.cs-section-head p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.rows {
+  border-bottom: 1px solid var(--line);
+}
+
+.empty {
+  padding: 5rem 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.empty h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0;
+}
+
+.empty p {
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.empty .btn {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Extras ---------- */
+
+.api-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.api-item {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.7rem 0.75rem;
+  background: var(--surface);
+}
+
+.api-name {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.3rem;
+}
+
+.api-name code {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--text);
+}
+
+.kind {
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 0.08rem 0.35rem;
+}
+
+.api-item p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+th {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+td:first-child {
+  color: var(--text);
+}
+
+td code {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.cli-list {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.cli-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) 1.1fr;
+  gap: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--line-soft);
+  align-items: baseline;
+}
+
+.cli-row:last-child {
+  border-bottom: 0;
+}
+
+.cli-row code {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--accent);
+}
+
+.cli-row span {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.cs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2.5rem 0 1rem;
+}
+
+.cs-footer p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  max-width: 46ch;
+}
+
+@media (max-width: 800px) {
+  .api-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cli-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .cs-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .row-count {
+    display: none;
+  }
+}

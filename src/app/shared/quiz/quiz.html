@@ -1,0 +1,45 @@
+<section class="quiz" [class.answered]="answered()">
+  <header class="quiz-head">
+    <span class="eyebrow">Check yourself</span>
+    <span class="quiz-status" [class.ok]="answered() && correct()" [class.bad]="answered() && !correct()">
+      @if (answered()) {
+        {{ correct() ? 'Correct' : 'Review this' }}
+      } @else {
+        Pick one
+      }
+    </span>
+  </header>
+
+  <h3 class="question inline-rich" [innerHTML]="question() | inline"></h3>
+
+  <div class="options" role="group" aria-label="Answer options">
+    @for (option of options(); track $index; let i = $index) {
+      <button
+        type="button"
+        class="option"
+        [class.selected]="chosen() === i"
+        [class.correct]="answered() && i === answer()"
+        [class.wrong]="answered() && chosen() === i && i !== answer()"
+        [disabled]="answered()"
+        (click)="select(i)"
+      >
+        <span class="letter">{{ letter(i) }}</span>
+        <span class="option-text">{{ option }}</span>
+        <span class="mark" aria-hidden="true">
+          @if (answered() && i === answer()) {
+            ✓
+          } @else if (answered() && chosen() === i) {
+            ✕
+          }
+        </span>
+      </button>
+    }
+  </div>
+
+  @if (answered()) {
+    <div class="explain" [class.bad]="!correct()">
+      <span class="explain-label">{{ correct() ? 'Why it works' : 'The correct answer' }}</span>
+      <p [innerHTML]="explain() | inline"></p>
+    </div>
+  }
+</section>

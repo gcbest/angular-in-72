@@ -1,0 +1,233 @@
+<div class="drills">
+  <header class="drills-hero">
+    <div class="drills-top">
+      <a class="back" routerLink="/">← Three-day plan</a>
+      <span class="eyebrow">Practice</span>
+    </div>
+
+    <h1 class="display">Recall, <em>under pressure.</em></h1>
+    <p class="lede">
+      Flashcards for the facts. A timed drill for the feeling of the interview. Do both
+      once today, then repeat only what you miss.
+    </p>
+
+    <div class="tabs" role="tablist" aria-label="Practice modes">
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="tab() === 'cards'"
+        [class.active]="tab() === 'cards'"
+        (click)="tab.set('cards')"
+      >
+        Flashcards
+        <span>{{ deck().length }}</span>
+      </button>
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="tab() === 'quiz'"
+        [class.active]="tab() === 'quiz'"
+        (click)="tab.set('quiz')"
+      >
+        Timed drill
+        <span>12 Q · 12 min</span>
+      </button>
+    </div>
+  </header>
+
+  @if (tab() === 'cards') {
+    <section class="cards" aria-label="Flashcards">
+      <div class="cards-toolbar">
+        <div class="chips">
+          @for (item of categories; track item) {
+            <button
+              type="button"
+              [class.active]="category() === item"
+              (click)="setCategory(item)"
+            >
+              {{ item }}
+            </button>
+          }
+        </div>
+
+        <div class="tools">
+          <span>{{ knownCount() }} / {{ deck().length }} known</span>
+          <button type="button" class="tool-btn" (click)="shuffle()">Shuffle</button>
+        </div>
+      </div>
+
+      <div class="deck-bar" role="progressbar" [attr.aria-valuenow]="deckPct()" aria-valuemin="0" aria-valuemax="100">
+        <span [style.width.%]="deckPct()"></span>
+      </div>
+
+      @if (currentCard(); as card) {
+        <div
+          class="flashcard"
+          [class.flipped]="flipped()"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="flipped() ? 'Answer. Click to hide.' : 'Question. Click to reveal the answer.'"
+          (click)="flip()"
+          (keydown.enter)="flip()"
+          (keydown.space)="flip(); $event.preventDefault()"
+        >
+          <div class="card-top">
+            <span class="eyebrow">{{ card.category }}</span>
+            <span class="card-count">{{ cardIndex() + 1 }} / {{ deck().length }}</span>
+          </div>
+
+          @if (!flipped()) {
+            <div class="card-face">
+              <span class="card-label">Question</span>
+              <p class="card-q inline-rich" [innerHTML]="card.q | inline"></p>
+              <span class="flip-hint">Click or press space to reveal</span>
+            </div>
+          } @else {
+            <div class="card-face answer">
+              <span class="card-label">Answer</span>
+              <p class="card-a inline-rich" [innerHTML]="card.a | inline"></p>
+              <span class="flip-hint">Click to hide</span>
+            </div>
+          }
+        </div>
+
+        <div class="card-actions">
+          <button type="button" class="btn" (click)="previous()" [disabled]="cardIndex() === 0">
+            ← Previous
+          </button>
+          <div class="grade">
+            <button type="button" class="btn review" (click)="advance(false)">Review again</button>
+            <button type="button" class="btn btn-primary" (click)="advance(true)">Got it →</button>
+          </div>
+        </div>
+      } @else {
+        <div class="deck-done">
+          <span class="eyebrow">Deck complete</span>
+          <h2 class="display">You knew <em>{{ knownCount() }} of {{ deck().length }}.</em></h2>
+          <p>
+            @if (knownCount() === deck().length) {
+              Clean sweep. Move to the timed drill and see if it holds under a clock.
+            } @else {
+              Reread the answers you marked “review again”, then run the deck once more.
+            }
+          </p>
+          <div class="deck-done-actions">
+            <button type="button" class="btn btn-primary" (click)="restartDeck()">Restart deck</button>
+            <button type="button" class="btn" (click)="tab.set('quiz')">Take the timed drill</button>
+          </div>
+        </div>
+      }
+    </section>
+  } @else {
+    @if (!quizStarted()) {
+      <section class="quiz-intro">
+        <span class="eyebrow">Timed drill</span>
+        <h2 class="display">12 questions. <em>12 minutes.</em></h2>
+        <p>
+          A mixed set pulled from every category. You get instant feedback after each
+          answer, then a full review at the end. The clock does not pause.
+        </p>
+
+        <ul class="quiz-rules">
+          <li>One point per correct answer. No negative marking.</li>
+          <li>Answer in under a minute each; flag the ones you guess.</li>
+          <li>At the end, reread every explanation — even the correct ones.</li>
+        </ul>
+
+        @if (best() !== null) {
+          <p class="best">Personal best: <strong>{{ best() }} / 12</strong></p>
+        }
+
+        <button type="button" class="btn btn-primary" (click)="startQuiz()">
+          Start the drill <span class="arrow">→</span>
+        </button>
+      </section>
+    } @else if (!quizFinished()) {
+      <section class="quiz-run" aria-label="Timed quiz">
+        <div class="quiz-bar">
+          <span class="timer" [class.low]="timeLeft() < 60">{{ formatTime(timeLeft()) }}</span>
+          <span class="qcount">Question {{ quizIndex() + 1 }} / {{ quizQuestions().length }}</span>
+          <span class="live-score">{{ score() }} correct</span>
+        </div>
+
+        <div class="quiz-progress" role="progressbar" [attr.aria-valuenow]="quizPct()" aria-valuemin="0" aria-valuemax="100">
+          <span [style.width.%]="quizPct()"></span>
+        </div>
+
+        @if (currentQuestion(); as question) {
+          <div class="quiz-card">
+            <span class="eyebrow">{{ question.category }}</span>
+            <h2 class="inline-rich" [innerHTML]="question.q | inline"></h2>
+
+            <div class="options" role="group" aria-label="Answer options">
+              @for (option of question.options; track $index; let i = $index) {
+                <button
+                  type="button"
+                  class="option"
+                  [class.selected]="selected() === i"
+                  [class.correct]="answered() && i === question.answer"
+                  [class.wrong]="answered() && selected() === i && i !== question.answer"
+                  [disabled]="answered()"
+                  (click)="answer(i)"
+                >
+                  <span class="letter">{{ letter(i) }}</span>
+                  <span class="option-text">{{ option }}</span>
+                  <span class="mark" aria-hidden="true">
+                    @if (answered() && i === question.answer) {
+                      ✓
+                    } @else if (answered() && selected() === i) {
+                      ✕
+                    }
+                  </span>
+                </button>
+              }
+            </div>
+
+            @if (answered()) {
+              <div class="explain" [class.bad]="selected() !== question.answer">
+                <span class="explain-label">
+                  {{ selected() === question.answer ? 'Correct' : 'Not quite' }}
+                </span>
+                <p>{{ question.explain }}</p>
+              </div>
+
+              <button type="button" class="btn btn-primary next" (click)="nextQuestion()">
+                {{ quizIndex() === quizQuestions().length - 1 ? 'See results' : 'Next question' }}
+                <span class="arrow">→</span>
+              </button>
+            }
+          </div>
+        }
+      </section>
+    } @else {
+      <section class="quiz-results" aria-label="Quiz results">
+        <span class="eyebrow">Results</span>
+        <h2 class="display">{{ score() }} / {{ quizQuestions().length }} <em>correct.</em></h2>
+        <p class="result-message">{{ resultMessage() }}</p>
+
+        <div class="review">
+          @for (question of quizQuestions(); track question.id; let i = $index) {
+            <div class="review-item" [class.ok]="isCorrect(i)">
+              <div class="review-head">
+                <span class="review-num">{{ i + 1 }}</span>
+                <span class="review-q inline-rich" [innerHTML]="question.q | inline"></span>
+                <span class="review-mark" aria-hidden="true">{{ isCorrect(i) ? '✓' : '✕' }}</span>
+              </div>
+              <p class="review-answer">
+                <span>Your answer: {{ answerText(i) }}</span>
+                <span>Correct: {{ correctText(i) }}</span>
+              </p>
+              <p class="review-explain">{{ question.explain }}</p>
+            </div>
+          }
+        </div>
+
+        <div class="results-actions">
+          <button type="button" class="btn btn-primary" (click)="startQuiz()">Try again</button>
+          <button type="button" class="btn" (click)="resetQuiz()">Back to intro</button>
+          <a class="btn" routerLink="/cheatsheet">Review the cheat sheet</a>
+        </div>
+      </section>
+    }
+  }
+</div>

@@ -1,0 +1,184 @@
+@if (open()) {
+  <div class="backdrop" (click)="close()">
+    <div
+      class="dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="sync-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="head">
+        <div>
+          <span class="eyebrow">Cross-device</span>
+          <h2 id="sync-title">Sync progress</h2>
+        </div>
+        <button type="button" class="close" (click)="close()" aria-label="Close sync settings">
+          ×
+        </button>
+      </header>
+
+      <div class="body">
+        <p class="lede">
+          Progress lives in this browser by default. Connect a secret GitHub gist to carry
+          lesson completion, quiz answers, and flashcard progress between your laptop and
+          phone.
+        </p>
+
+        <div class="snapshot">
+          <div>
+            <strong>{{ completedCount() }}</strong>
+            <span>lessons complete</span>
+          </div>
+          <div>
+            <strong>{{ quizCount() }}</strong>
+            <span>quiz answers</span>
+          </div>
+          <div>
+            <strong>{{ knownCount() }}</strong>
+            <span>cards known</span>
+          </div>
+        </div>
+
+        @if (configured()) {
+          <section class="connected">
+            <div class="status-row">
+              <span
+                class="status-dot"
+                [class.syncing]="busy()"
+                [class.error]="sync.status() === 'error'"
+              ></span>
+              <span class="status-text">
+                @if (busy()) {
+                  Syncing…
+                } @else if (sync.status() === 'error') {
+                  Sync failed
+                } @else {
+                  {{ sync.lastSyncLabel() }}
+                }
+              </span>
+              @if (sync.gistUrl(); as url) {
+                <a class="gist-link" [href]="url" target="_blank" rel="noopener">
+                  Open gist ↗
+                </a>
+              }
+            </div>
+
+            <label class="check">
+              <input
+                type="checkbox"
+                [checked]="autoSync()"
+                (change)="toggleAuto($any($event.target).checked)"
+              />
+              Auto-sync after changes
+            </label>
+
+            <div class="actions">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="syncNow()"
+                [disabled]="busy()"
+              >
+                {{ busy() ? 'Syncing…' : 'Sync now' }}
+              </button>
+              <button type="button" class="btn" (click)="pushLocal()" [disabled]="busy()">
+                Push local
+              </button>
+              <button type="button" class="btn" (click)="pullRemote()" [disabled]="busy()">
+                Pull remote
+              </button>
+            </div>
+
+            <p class="sync-hint">
+              <strong>Sync now</strong> pulls remote, merges, then pushes. Completion and
+              flashcards are unioned, so you never lose progress from either device.
+            </p>
+          </section>
+        }
+
+        @if (sync.error(); as message) {
+          <p class="message error">{{ message }}</p>
+        } @else if (sync.status() === 'success') {
+          <p class="message ok">Progress synced with GitHub.</p>
+        }
+
+        <details class="connection" [open]="!configured()">
+          <summary>{{ configured() ? 'Change connection' : 'Connect a gist' }}</summary>
+
+          <form class="setup" (submit)="connect($event)">
+            <label>
+              <span class="label-text">GitHub token</span>
+              <input
+                type="password"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="{{ configured() ? 'Saved — paste a new token to replace' : 'ghp_… or github_pat_…' }}"
+                [value]="token()"
+                (input)="token.set($any($event.target).value)"
+              />
+            </label>
+
+            <label>
+              <span class="label-text">
+                Gist id
+                <span class="optional">optional — leave blank to create one</span>
+              </span>
+              <input
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="e.g. 1a2b3c4d5e6f…"
+                [value]="gistId()"
+                (input)="gistId.set($any($event.target).value)"
+              />
+            </label>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary" [disabled]="busy()">
+                {{ gistId() ? 'Connect & sync' : 'Create gist & sync' }}
+              </button>
+              @if (configured()) {
+                <button type="button" class="btn" (click)="createNew()" [disabled]="busy()">
+                  Create new gist
+                </button>
+              }
+            </div>
+          </form>
+
+          <ol class="steps">
+            <li>
+              Open
+              <a
+                href="https://github.com/settings/tokens/new?scopes=gist&description=Angular%20in%2072%20progress%20sync"
+                target="_blank"
+                rel="noopener"
+              >
+                GitHub token settings ↗
+              </a>
+              and create a token with the <code>gist</code> scope. A fine-grained token
+              with “Gists: read and write” also works.
+            </li>
+            <li>Paste it above. Leave the gist id blank and the app creates a secret gist for you.</li>
+            <li>
+              On your phone, open this site, go to Sync, and paste the <em>same</em> token
+              and gist id. Progress merges in both directions.
+            </li>
+          </ol>
+        </details>
+
+        <p class="security">
+          <strong>Keep the token private.</strong> It is stored only in this browser’s
+          <code>localStorage</code> and sent directly to <code>api.github.com</code> — never
+          committed to the repo. Use a token with only gist access and an expiry date. A
+          secret gist is unlisted, not private; do not store sensitive data in it.
+        </p>
+
+        @if (configured()) {
+          <button type="button" class="disconnect" (click)="disconnect()">
+            Disconnect this device
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

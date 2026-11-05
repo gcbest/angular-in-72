@@ -1,0 +1,588 @@
+.home {
+  padding-bottom: 1rem;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+  padding: clamp(3.4rem, 7vw, 6.2rem) 0 clamp(3.2rem, 6vw, 5rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-copy {
+  min-width: 0;
+  animation: rise 520ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 1.6rem;
+}
+
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-soft);
+  animation: pulse 2.4s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(255, 59, 92, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 92, 0);
+  }
+}
+
+h1 {
+  font-size: clamp(3.6rem, 7.4vw, 6.4rem);
+  margin: 0 0 1.5rem;
+  max-width: 10ch;
+}
+
+.lede {
+  max-width: 51ch;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.65;
+  margin: 0 0 1.8rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  margin-top: 2.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.hero-meta strong {
+  color: var(--text);
+  font-weight: 500;
+  margin-right: 0.2rem;
+}
+
+.hero-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    radial-gradient(120% 100% at 100% 0%, rgba(255, 59, 92, 0.07), transparent 55%),
+    var(--surface);
+  padding: 0.85rem;
+  box-shadow: var(--shadow);
+  animation: rise 620ms 100ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.card-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.15rem 0.7rem;
+}
+
+.card-tabs button {
+  border: 0;
+  background: transparent;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+}
+
+.card-tabs button:hover {
+  color: var(--text);
+}
+
+.card-tabs button.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.tab-note {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.hero-card app-code {
+  margin: 0;
+}
+
+.card-caption {
+  margin: 0.65rem 0.2rem 0.1rem;
+  color: var(--text-faint);
+  font-size: 0.76rem;
+  font-style: italic;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding: clamp(3.2rem, 6vw, 5.2rem) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-head {
+  max-width: 720px;
+  margin-bottom: 2.3rem;
+}
+
+.section-head h2,
+.method h2,
+.compare-copy h2 {
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  margin: 0.5rem 0 0.9rem;
+}
+
+.section-head p,
+.compare-copy p {
+  color: var(--text-dim);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  max-width: 62ch;
+}
+
+/* ---------- Day cards ---------- */
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.day-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem 1.15rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.day-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  background:
+    linear-gradient(160deg, var(--accent-soft), transparent 55%),
+    var(--surface);
+}
+
+.day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.day-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.day-time {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.day-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.45rem;
+}
+
+.day-index {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--text-faint);
+  line-height: 1;
+}
+
+.day-card h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.day-sub {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+  min-height: 2.5rem;
+}
+
+.day-lessons {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.15rem;
+  display: grid;
+  gap: 0.28rem;
+}
+
+.day-lessons li {
+  position: relative;
+  padding-left: 0.9rem;
+  color: var(--text-faint);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.day-lessons li::before {
+  content: '·';
+  position: absolute;
+  left: 0.1rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.day-lessons .more {
+  color: var(--text-faint);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.day-lessons .more::before {
+  content: '+';
+  font-size: 0.6rem;
+}
+
+.day-progress {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--surface-3);
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.day-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 380ms ease;
+}
+
+.day-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.day-arrow {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  transition: transform 180ms ease;
+}
+
+.day-card:hover .day-arrow {
+  transform: translateX(3px);
+  color: var(--accent);
+}
+
+/* ---------- High yield ---------- */
+
+.yield-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.yield-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.15rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.yield-card:hover {
+  border-color: var(--text-faint);
+  background: var(--surface);
+}
+
+.yield-num {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 1.4rem;
+}
+
+.yield-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.35rem;
+}
+
+.yield-card p {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.yield-cta {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.yield-card:hover .yield-cta {
+  color: var(--accent);
+}
+
+/* ---------- Method ---------- */
+
+.method {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(3.2rem, 6vw, 5.2rem) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.method-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.method-step {
+  border-top: 1px solid var(--line);
+  padding-top: 0.8rem;
+}
+
+.method-num {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.method-step h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0.6rem 0 0.4rem;
+}
+
+.method-step p {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---------- Compare preview ---------- */
+
+.compare-preview {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.compare-copy .btn {
+  margin-top: 1.4rem;
+}
+
+.preview {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+
+.preview-head,
+.preview-row {
+  display: grid;
+  grid-template-columns: 0.55fr 1fr 1.15fr;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  align-items: center;
+}
+
+.preview-head {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.preview-row {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.preview-row:last-child {
+  border-bottom: 0;
+}
+
+.preview-topic {
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.preview-row code {
+  color: var(--text-dim);
+  font-size: 0.66rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+
+.preview-row code.ng {
+  color: var(--accent);
+}
+
+/* ---------- CTA ---------- */
+
+.cta {
+  padding: clamp(4rem, 8vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta h2 {
+  font-size: clamp(2.2rem, 5vw, 4.1rem);
+  margin: 0.7rem 0 1.7rem;
+}
+
+.cta-actions {
+  justify-content: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1080px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    padding-top: 3.5rem;
+  }
+
+  .hero-card {
+    max-width: 620px;
+  }
+
+  .day-grid,
+  .yield-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .method {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .compare-preview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 2.6rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 15vw, 4.2rem);
+  }
+
+  .hero-meta {
+    gap: 1rem;
+    font-size: 0.55rem;
+  }
+
+  .day-grid,
+  .yield-grid,
+  .method-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .day-sub {
+    min-height: 0;
+  }
+
+  .preview-head,
+  .preview-row {
+    grid-template-columns: 0.5fr 1fr 1.2fr;
+    padding: 0.5rem;
+  }
+
+  .preview-row code {
+    font-size: 0.58rem;
+  }
+}

@@ -1,0 +1,19 @@
+<div class="cheat-row">
+  <div class="cheat-topic">
+    <h3>{{ row().topic }}</h3>
+    @if (row().note) {
+      <p>{{ row().note }}</p>
+    }
+  </div>
+
+  <div class="panes">
+    <div class="pane">
+      <span class="pane-label react">React</span>
+      <pre><code [innerHTML]="reactHtml()"></code></pre>
+    </div>
+    <div class="pane">
+      <span class="pane-label angular">Angular</span>
+      <pre><code [innerHTML]="angularHtml()"></code></pre>
+    </div>
+  </div>
+</div>

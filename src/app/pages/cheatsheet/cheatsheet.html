@@ -1,0 +1,176 @@
+<div class="cheatsheet">
+  <header class="cs-hero">
+    <div class="cs-top">
+      <a class="back" routerLink="/">← Three-day plan</a>
+      <span class="eyebrow">Reference</span>
+    </div>
+
+    <h1 class="display">React → <em>Angular.</em></h1>
+    <p class="lede">
+      The whole translation layer on one page. Skim it on day one, then come back on
+      interview morning and cover the right column.
+    </p>
+
+    <div class="cs-search">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7" />
+        <path d="m16.5 16.5 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+      </svg>
+      <input
+        type="search"
+        placeholder="Filter the mapping — state, guard, form, switchMap…"
+        [value]="query()"
+        (input)="query.set($any($event.target).value)"
+        aria-label="Filter cheat sheet"
+      />
+      @if (query()) {
+        <button type="button" class="clear" (click)="query.set('')">Clear</button>
+      }
+      <span class="row-count">{{ rowCount() }} rows</span>
+    </div>
+
+    <nav class="cs-nav" aria-label="Cheat sheet sections">
+      @for (section of sections; track section.id) {
+        <a [routerLink]="['/cheatsheet']" [fragment]="section.id">{{ section.title }}</a>
+      }
+      @if (!query()) {
+        <a routerLink="/cheatsheet" fragment="api">API</a>
+        <a routerLink="/cheatsheet" fragment="lifecycle">Lifecycle</a>
+        <a routerLink="/cheatsheet" fragment="rxjs">RxJS</a>
+        <a routerLink="/cheatsheet" fragment="cli">CLI</a>
+      }
+    </nav>
+  </header>
+
+  <div class="cs-body">
+    @if (filtered().length === 0) {
+      <div class="empty">
+        <span class="eyebrow">No matches</span>
+        <h2 class="display">Nothing under “{{ query() }}”.</h2>
+        <p>Try “signal”, “input”, “guard”, “form”, or “switchMap”.</p>
+        <button type="button" class="btn btn-sm" (click)="query.set('')">Clear filter</button>
+      </div>
+    }
+
+    @for (section of filtered(); track section.id; let i = $index) {
+      <section class="cs-section" [id]="section.id">
+        <header class="cs-section-head">
+          <span class="cs-num">{{ pad(i + 1) }}</span>
+          <div>
+            <h2 class="display">{{ section.title }}</h2>
+            <p>{{ section.description }}</p>
+          </div>
+        </header>
+
+        <div class="rows">
+          @for (row of section.rows; track row.topic) {
+            <app-cheat-row [row]="row" />
+          }
+        </div>
+      </section>
+    }
+
+    @if (!query()) {
+      <section class="cs-section extras" id="api">
+      <header class="cs-section-head">
+        <span class="cs-num">A</span>
+        <div>
+          <h2 class="display">API glossary</h2>
+          <p>The names that should trigger an explanation, not a blank stare.</p>
+        </div>
+      </header>
+
+      <div class="api-grid">
+        @for (item of apiItems; track item.name) {
+          <div class="api-item">
+            <div class="api-name">
+              <code>{{ item.name }}</code>
+              <span class="kind">{{ item.kind }}</span>
+            </div>
+            <p>{{ item.description }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="cs-section extras" id="lifecycle">
+      <header class="cs-section-head">
+        <span class="cs-num">B</span>
+        <div>
+          <h2 class="display">Lifecycle at a glance</h2>
+          <p>Classic hooks and their React analogues.</p>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Hook</th><th>When it runs</th><th>React analogue</th></tr>
+          </thead>
+          <tbody>
+            @for (row of lifecycleRows; track row.hook) {
+              <tr>
+                <td><code>{{ row.hook }}</code></td>
+                <td>{{ row.when }}</td>
+                <td>{{ row.react }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cs-section extras" id="rxjs">
+      <header class="cs-section-head">
+        <span class="cs-num">C</span>
+        <div>
+          <h2 class="display">RxJS operators</h2>
+          <p>The short list that covers most Angular application code.</p>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Operator</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            @for (operator of rxjsOperators; track operator.name) {
+              <tr>
+                <td><code>{{ operator.name }}</code></td>
+                <td>{{ operator.use }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cs-section extras" id="cli">
+      <header class="cs-section-head">
+        <span class="cs-num">D</span>
+        <div>
+          <h2 class="display">CLI commands</h2>
+          <p>Enough to scaffold and run a project live.</p>
+        </div>
+      </header>
+
+      <div class="cli-list">
+        @for (item of cliCommands; track item.command) {
+          <div class="cli-row">
+            <code>{{ item.command }}</code>
+            <span>{{ item.description }}</span>
+          </div>
+        }
+      </div>
+    </section>
+    }
+
+    <div class="cs-footer">
+      <p>
+        Cover the Angular column. If you can predict the code, you know the mapping.
+      </p>
+      <a class="btn btn-primary" routerLink="/drills">Test yourself <span class="arrow">→</span></a>
+    </div>
+  </div>
+</div>
